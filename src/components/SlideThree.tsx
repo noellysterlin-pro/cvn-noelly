@@ -1,4 +1,5 @@
-import React, { type ReactNode } from "react";
+// src/components/SlideThree.tsx
+import type { ReactNode } from "react";
 
 const PALETTE = {
   primary: "#7030A0",
@@ -31,14 +32,21 @@ function SubTitle({ children }: { children: ReactNode }) {
   );
 }
 
+// CTA local (accepte target / rel)
 function CTAButton({
   children,
   href = "#",
   variant = "filled",
+  className = "",
+  target,
+  rel,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   href?: string;
   variant?: "filled" | "outline";
+  className?: string;
+  target?: string;
+  rel?: string;
 }) {
   const base =
     "inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-semibold transition-transform duration-200";
@@ -46,12 +54,10 @@ function CTAButton({
     return (
       <a
         href={href}
-        className={`${base} border`}
-        style={{
-          backgroundColor: PALETTE.white,
-          color: PALETTE.primary,
-          borderColor: PALETTE.primary,
-        }}
+        target={target}
+        rel={rel}
+        className={`${base} border ${className}`}
+        style={{ backgroundColor: "white", color: PALETTE.primary, borderColor: PALETTE.primary }}
       >
         {children}
       </a>
@@ -59,20 +65,23 @@ function CTAButton({
   return (
     <a
       href={href}
-      className={`${base}`}
-      style={{ backgroundColor: PALETTE.accent, color: PALETTE.dark }}
+      target={target}
+      rel={rel}
+      className={`${base} ${className}`}
+      style={{ backgroundColor: PALETTE.accent, color: "#111827" }}
     >
       {children}
     </a>
   );
 }
 
-/** ===== PROFIL MBTI + DISC ===== */
+/** ====== Blocs MBTI + DISC (avec même design de titre que "Vision & ambitions") ====== */
 function ProfilMBTI_DISC() {
   return (
     <section className="rounded-2xl border border-gray-200 bg-white shadow-sm p-8 mt-8">
       {/* MBTI */}
       <SubTitle>Mon profil de pensée – INTJ-A</SubTitle>
+
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -83,6 +92,7 @@ function ProfilMBTI_DISC() {
             et structure des plans clairs et pragmatiques.
           </p>
         </div>
+
         <div>
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
             Orientée résultats
@@ -92,6 +102,7 @@ function ProfilMBTI_DISC() {
             concrètes et mesurables.
           </p>
         </div>
+
         <div>
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
             Efficace & autonome
@@ -101,6 +112,7 @@ function ProfilMBTI_DISC() {
             et décide avec logique et preuves.
           </p>
         </div>
+
         <div>
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
             Innovante & méthodique
@@ -110,6 +122,7 @@ function ProfilMBTI_DISC() {
             problématiques complexes et créer des solutions durables.
           </p>
         </div>
+
         <div>
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
             Leadership naturel
@@ -129,7 +142,7 @@ function ProfilMBTI_DISC() {
           Ce profil s’appuie sur mon <strong>intuition stratégique (Ni)</strong>{" "}
           et ma <strong>pensée logique (Te)</strong> : deux leviers clés qui me
           permettent de <strong>faire passer les découvertes du laboratoire au marché</strong>, cœur du rôle en{" "}
-          <strong>R&amp;D nutraceutique</strong>.
+          <strong>R&D nutraceutique</strong>.
         </p>
       </div>
 
@@ -138,6 +151,7 @@ function ProfilMBTI_DISC() {
         <SubTitle>Mon profil comportemental – DISC</SubTitle>
       </div>
 
+      {/* Légende couleurs */}
       <div className="flex flex-wrap items-center gap-4 mb-6 text-xs text-gray-700">
         <span className="inline-flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-600" />
@@ -158,6 +172,7 @@ function ProfilMBTI_DISC() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
+        {/* Conformité */}
         <div className="rounded-xl border p-5 bg-white">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-blue-700">
@@ -175,6 +190,7 @@ function ProfilMBTI_DISC() {
           </div>
         </div>
 
+        {/* Stabilité */}
         <div className="rounded-xl border p-5 bg-white">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-green-700">
@@ -192,6 +208,7 @@ function ProfilMBTI_DISC() {
           </div>
         </div>
 
+        {/* Dominance */}
         <div className="rounded-xl border p-5 bg-white">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-red-700">
@@ -209,6 +226,7 @@ function ProfilMBTI_DISC() {
           </div>
         </div>
 
+        {/* Influence */}
         <div className="rounded-xl border p-5 bg-white">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-amber-700">
@@ -233,20 +251,21 @@ function ProfilMBTI_DISC() {
         </h3>
         <p className="text-gray-800 text-sm mt-1">
           Mes résultats DISC traduisent un <strong>profil équilibré mais affirmé</strong> :
-          la <strong>Dominance</strong> et la <strong>Conformité</strong> renforcent ma capacité à{" "}
-          <strong>décider vite tout en gardant la rigueur</strong>, tandis que la{" "}
-          <strong>Stabilité</strong> et l’<strong>Influence</strong> soutiennent mon{" "}
-          <strong>écoute active, ma coopération et ma faculté à engager les autres</strong>.
-          Cet ensemble me permet de <strong>piloter des projets R&amp;D complexes</strong> en
-          combinant efficacité, clarté et mobilisation des parties prenantes.
+          la <strong>Dominance</strong> et la <strong>Conformité</strong> renforcent ma
+          capacité à <strong>décider vite tout en gardant la rigueur</strong>, tandis que
+          la <strong>Stabilité</strong> et l’<strong>Influence</strong> soutiennent mon <strong>écoute active</strong>,
+          ma <strong>coopération</strong> et ma <strong>faculté à engager les autres</strong>. Cet ensemble me
+          permet de <strong>piloter des projets R&D complexes</strong> en combinant efficacité,
+          clarté et mobilisation des parties prenantes.
         </p>
       </div>
     </section>
   );
 }
 
-/** ===== SLIDE THREE (page) ===== */
 export default function SlideThree() {
+  const PDF_URL = "/cv_2025_noelly_sterlin.pdf";
+
   const ambitions = [
     {
       period: "Maintenant (0–2 ans)",
@@ -282,6 +301,7 @@ export default function SlideThree() {
 
   return (
     <section className="space-y-10" style={{ fontFamily: SANS }}>
+      {/* Bandeau + intro personnelle */}
       <div className="mx-auto max-w-6xl px-4">
         <div className="rounded-2xl p-6 md:p-8 text-white bg-[linear-gradient(180deg,#111827_0%,#221f2b_100%)]">
           <h2 className="text-xl md:text-2xl font-extrabold uppercase tracking-wide">
@@ -292,36 +312,34 @@ export default function SlideThree() {
           </p>
         </div>
 
-        {/* Bloc présentation personnelle */}
+        {/* Paragraphe indépendant sous le bandeau */}
         <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-sm text-gray-700">
-            Esprit analytique et créatif, je combine la rigueur scientifique et
-            la curiosité intellectuelle avec une vraie capacité à structurer et
-            décider. Ce qui me définit : apprendre vite, relier des domaines
-            différents, chercher le sens avant l’action. Je me construis sur une
-            vision long terme, avec l’envie d’apporter des solutions concrètes
-            et utiles.
+            Esprit analytique et créatif, je combine la rigueur scientifique et la curiosité intellectuelle avec une vraie capacité à structurer et décider.
+            Ce qui me définit : apprendre vite, relier des domaines différents, chercher le sens avant l’action.
+            Je me construis sur une vision long terme, avec l’envie d’apporter des solutions concrètes et utiles.
           </p>
         </div>
       </div>
 
+      {/* Blocs MBTI + DISC */}
       <div className="mx-auto max-w-6xl px-4">
         <ProfilMBTI_DISC />
       </div>
 
+      {/* Vision & ambitions */}
       <div className="mx-auto max-w-6xl px-4">
         <SubTitle>Vision & ambitions</SubTitle>
         <p className="text-sm text-gray-700 mb-4">
-          J’aime transformer la complexité en clarté. Mon moteur est la
-          recherche de sens, avec la conviction que la science doit servir à
-          améliorer le quotidien.
+          J’aime transformer la complexité en clarté. Mon moteur est la recherche de sens, avec la conviction que la science doit servir à améliorer le quotidien.
         </p>
+
         <ol
           className="relative border-s-2 border-dashed ps-4"
           style={{ borderColor: `${PALETTE.primary}66` }}
         >
           {ambitions.map((a) => (
-            <li key={a.title} className="mb-5">
+            <li key={a.period} className="mb-5">
               <div
                 className="absolute -start-2.5 mt-1 h-4 w-4 rounded-full"
                 style={{ backgroundColor: a.dot }}
@@ -330,17 +348,11 @@ export default function SlideThree() {
                 {a.period}
               </p>
               <p className="text-sm mt-0.5" style={{ color: PALETTE.dark }}>
-                <span
-                  className="font-semibold"
-                  style={{ color: PALETTE.primary }}
-                >
+                <span className="font-semibold" style={{ color: PALETTE.primary }}>
                   {a.title}
                 </span>
               </p>
-              <ul
-                className="mt-1 list-disc pl-5 text-sm"
-                style={{ color: PALETTE.gray }}
-              >
+              <ul className="mt-1 list-disc pl-5 text-sm" style={{ color: PALETTE.gray }}>
                 {a.points.map((pt) => (
                   <li key={pt}>{pt}</li>
                 ))}
@@ -350,6 +362,7 @@ export default function SlideThree() {
         </ol>
       </div>
 
+      {/* Bandeau final */}
       <div className="mx-auto max-w-6xl px-4">
         <div
           className="rounded-2xl p-6 text-white"
@@ -377,13 +390,9 @@ export default function SlideThree() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <CTAButton
-  href="/cv_2025_noelly_sterlin.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  Télécharger le CV
-</CTAButton>
+              <CTAButton href={PDF_URL} target="_blank" rel="noopener noreferrer">
+                Télécharger le CV
+              </CTAButton>
               <CTAButton href="mailto:noelly.sterlin.pro@gmail.com" variant="outline">
                 Me contacter
               </CTAButton>

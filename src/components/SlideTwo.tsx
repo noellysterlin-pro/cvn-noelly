@@ -1,6 +1,6 @@
-import React, { type ReactNode } from "react";
+// src/components/SlideTwo.tsx
+import type { ReactNode } from "react";
 
-// Palette et polices (cohérence design)
 const PALETTE = {
   primary: "#7030A0",
   accent: "#F5E663",
@@ -8,8 +8,6 @@ const PALETTE = {
   white: "#FFFFFF",
   gray: "#374151",
   border: "#e5e7eb",
-  badgeBg: "#FFFEEE",
-  badgeBorder: "#e5e7eb",
   light: "#F3F4F6",
   purple: "#7030A0",
 } as const;
@@ -38,7 +36,8 @@ function SubTitle({ children }: { children: ReactNode }) {
 export default function SlideTwo() {
   const FORMATIONS = [
     {
-      title: "MBA Manager Business Unit (en ligne – en cours) – Studi & ESG",
+      title:
+        "MBA Manager Business Unit (en ligne – en cours) – Studi & ESG",
       desc:
         "Pilotage BU, prévisions financières, stratégie de développement, KPI projets.",
       emphasize: true,
@@ -69,7 +68,6 @@ export default function SlideTwo() {
     },
   ];
 
-  // Outils & data — badges
   const OUTILS_DATA = [
     "Suite Office : Word, Excel, PowerPoint",
     "Pubmed",
@@ -104,13 +102,10 @@ export default function SlideTwo() {
         {/* Domaines d’expertise & savoir-faire */}
         <div className="mt-6">
           <SubTitle>
-            <>
-              Domaines d’expertise{" "}
-              <span style={{ color: PALETTE.primary }}>&</span> savoir-faire
-            </>
+            <>Domaines d’expertise <span style={{ color: PALETTE.primary }}>&</span> savoir-faire</>
           </SubTitle>
 
-          {/* 3 blocs côte à côte */}
+          {/* 3 colonnes côte à côte */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Bloc 1 */}
             <section className="rounded-2xl border border-zinc-200 bg-zinc-50 p-6 shadow-sm">
@@ -164,7 +159,9 @@ export default function SlideTwo() {
                 <li>
                   Études de marché & positionnement stratégique (SAFE, ASTACI).
                 </li>
-                <li>Business Model Canvas, Business Plan, prévisions financières.</li>
+                <li>
+                  Business Model Canvas, Business Plan, prévisions financières.
+                </li>
                 <li>Pitch deck & présentation stratégique.</li>
                 <li>
                   Accompagnement de porteurs de projets (SAFE, ASTACI, KEYAA).
@@ -185,8 +182,8 @@ export default function SlideTwo() {
                   pricing (ENOV – Ipsos, Kantar, Engie).
                 </li>
                 <li>
-                  Normes alimentaires & HACCP : respect process qualité, gestion
-                  flux/stock (McDonald’s).
+                  Normes alimentaires & HACCP : respect process qualité,
+                  gestion flux/stock (McDonald’s).
                 </li>
                 <li>
                   Organisation & sécurité : contrôle d’accès, logistique
@@ -218,15 +215,14 @@ export default function SlideTwo() {
             </p>
           </section>
 
-          {/* Outils & data — pleine largeur */}
+          {/* Outils & data (pleine largeur) */}
           <div className="mt-6">
             <SubTitle>Outils & data</SubTitle>
-
             <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm w-full">
               <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                {OUTILS_DATA.map((it, j) => (
+                {OUTILS_DATA.map((it) => (
                   <span
-                    key={j}
+                    key={it}
                     className="text-xs px-2 py-1 rounded-full border text-center"
                     style={{
                       borderColor: PALETTE.border,
@@ -256,7 +252,7 @@ export default function SlideTwo() {
             className="h-1 w-12 rounded"
             style={{ backgroundColor: PALETTE.purple }}
           />
-          <div className="space-y-4">
+          <div className="space-y-4 mt-4">
             {FORMATIONS.map((f, i) => (
               <div
                 key={i}
@@ -265,11 +261,7 @@ export default function SlideTwo() {
               >
                 <div className="space-y-1">
                   <div className="font-semibold" style={{ color: PALETTE.dark }}>
-                    {f.emphasize ? (
-                      <strong style={{ color: PALETTE.dark }}>{f.title}</strong>
-                    ) : (
-                      f.title
-                    )}
+                    {f.emphasize ? <strong>{f.title}</strong> : f.title}
                   </div>
                   {f.desc && (
                     <p className="text-sm" style={{ color: PALETTE.gray }}>

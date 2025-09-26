@@ -1,6 +1,6 @@
-import React, { type ReactNode } from "react";
+// src/components/SlideOne.tsx
+import type { ReactNode } from "react";
 
-// Palette et polices (identiques à la page 2 pour cohérence)
 const PALETTE = {
   primary: "#7030A0",
   accent: "#F5E663",
@@ -18,7 +18,7 @@ const SANS =
   'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans"';
 const SERIF = '"Libre Baskerville","Bookman Old Style",serif';
 
-// Composants utilitaires
+// Petits utilitaires
 function SubTitle({ children }: { children: ReactNode }) {
   return (
     <div className="mb-4">
@@ -51,14 +51,21 @@ function Badge({ children }: { children: ReactNode }) {
   );
 }
 
+// Bouton (accepte target/rel)
 function CTAButton({
   children,
   href = "#",
   variant = "filled",
+  className = "",
+  target,
+  rel,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   href?: string;
   variant?: "filled" | "outline";
+  className?: string;
+  target?: string;
+  rel?: string;
 }) {
   const base =
     "inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-semibold transition-transform duration-200 will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
@@ -66,7 +73,9 @@ function CTAButton({
     return (
       <a
         href={href}
-        className={`${base} border hover:-translate-y-0.5`}
+        target={target}
+        rel={rel}
+        className={`${base} border hover:-translate-y-0.5 ${className}`}
         style={{
           backgroundColor: PALETTE.white,
           color: PALETTE.primary,
@@ -80,7 +89,9 @@ function CTAButton({
   return (
     <a
       href={href}
-      className={`${base} hover:-translate-y-0.5`}
+      target={target}
+      rel={rel}
+      className={`${base} hover:-translate-y-0.5 ${className}`}
       style={{
         backgroundColor: PALETTE.accent,
         color: PALETTE.dark,
@@ -92,24 +103,26 @@ function CTAButton({
   );
 }
 
-// ======= PAGE 1 =======
 export default function SlideOne() {
-  const PORTRAIT_URL = "/portrait-noelly.jpg"; 
+  // ⚠️ Place bien "portrait-noelly.jpg" et "cv_2025_noelly_sterlin.pdf" dans /public
+  const PORTRAIT_URL = "/portrait-noelly.jpg";
+  const PDF_URL = "/cv_2025_noelly_sterlin.pdf";
 
   return (
     <section className="space-y-10" style={{ fontFamily: SANS }}>
-      {/* Bandeau de présentation */}
+      {/* HERO */}
       <section className="grid md:grid-cols-2 gap-8 items-center mb-14 rounded-2xl p-6 md:p-8 text-white bg-[radial-gradient(800px_400px_at_0%_0%,#221f2b_0%,#111827_60%)] shadow-sm">
         <div className="order-2 md:order-1">
           <h1
             style={{ fontFamily: SERIF }}
             className="text-3xl md:text-4xl font-extrabold leading-tight uppercase tracking-tight"
           >
-            Ingénieure R&amp;D nutraceutique →{" "}
+            Ingénieure R&D nutraceutique →{" "}
             <span style={{ color: PALETTE.accent }}>
               future responsable innovation
             </span>
           </h1>
+
           <p className="mt-3 text-white/85">
             À la croisée de la{" "}
             <span className="font-bold" style={{ color: PALETTE.accent }}>
@@ -127,6 +140,18 @@ export default function SlideOne() {
             l’innovation raisonnée pour des solutions pertinentes
             scientifiquement et performantes économiquement.
           </p>
+
+          {/* CTA */}
+          <div className="mt-5 flex flex-wrap gap-3">
+            <CTAButton href={PDF_URL} target="_blank" rel="noopener noreferrer">
+              Télécharger mon CV
+            </CTAButton>
+            <CTAButton href="mailto:noelly.sterlin.pro@gmail.com" variant="outline">
+              Me contacter
+            </CTAButton>
+          </div>
+
+          {/* Badges */}
           <div className="mt-6 text-sm" style={{ color: PALETTE.gray }}>
             <div className="flex flex-wrap items-center gap-4">
               <Badge>Disponible immédiatement</Badge>
@@ -137,6 +162,7 @@ export default function SlideOne() {
             </div>
           </div>
         </div>
+
         <div className="order-1 md:order-2 flex justify-center md:justify-end">
           <div
             className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-xl"
@@ -151,7 +177,7 @@ export default function SlideOne() {
         </div>
       </section>
 
-      {/* Présentation détaillée */}
+      {/* Présentation */}
       <section className="mt-10">
         <div className="mx-auto max-w-6xl px-4">
           <div className="grid md:grid-cols-2 gap-6 items-start">
@@ -199,7 +225,8 @@ export default function SlideOne() {
       {/* Impact chiffré & contributions scientifiques */}
       <section className="mt-10">
         <div className="mx-auto max-w-6xl px-4">
-          <SubTitle>Impact chiffré &amp; contributions scientifiques</SubTitle>
+          <SubTitle>Impact chiffré & contributions scientifiques</SubTitle>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
@@ -218,8 +245,7 @@ export default function SlideOne() {
                 ],
               },
               {
-                title:
-                  "Recherche fondamentale (ANR) — Projet PerVaSKIN",
+                title: "Recherche fondamentale (ANR) — Projet PerVaSKIN",
                 highlight:
                   "Contribution à la mise au point d’un modèle de derme vascularisé en hydrogel, intégré à une puce microfluidique perfusée pour la modélisation des capillaires cutanés.",
                 badges: [
@@ -240,6 +266,7 @@ export default function SlideOne() {
                     {it.highlight}
                   </p>
                 </div>
+
                 <div className="mt-4 flex flex-wrap gap-2">
                   {it.badges.map((b) => (
                     <span
@@ -251,6 +278,7 @@ export default function SlideOne() {
                     </span>
                   ))}
                 </div>
+
                 <div className="pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-amber-50/0 via-amber-50/40 to-amber-100/0 opacity-0 transition-opacity group-hover:opacity-100" />
               </div>
             ))}
@@ -258,15 +286,18 @@ export default function SlideOne() {
         </div>
       </section>
 
-      {/* Intrapreneuriat et management de projet innovant */}
+      {/* Intrapreneuriat & management de projet innovant */}
       <section className="mt-10">
         <div className="mx-auto max-w-6xl px-4">
           <SubTitle>
-            Intrapreneuriat et management de projet innovant —{" "}
-            <span className="align-middle">
-              École IRIIG / Incubateur Start-up
-            </span>
+            <>
+              Intrapreneuriat et management de projet innovant —{" "}
+              <span className="align-middle">
+                École IRIIG / Incubateur Start-up
+              </span>
+            </>
           </SubTitle>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-6">
             {[
               {
@@ -306,11 +337,7 @@ export default function SlideOne() {
                   "Développement d’une Business Unit — Start-up KEYAA (superfood & nutraceutique)",
                 scope:
                   "Positionnement stratégique et innovation produit : étude de marché, idéation et brainstorming sur une formulation superfood en poudre ; premiers éléments de branding et storytelling.",
-                deliverables: [
-                  "Proposition de valeur",
-                  "Personas",
-                  "Pitch produit",
-                ],
+                deliverables: ["Proposition de valeur", "Personas", "Pitch produit"],
                 result:
                   "Socle initial pour structurer la BU nutraceutique : alignement marché-produit et récit de marque.",
                 badges: ["KEYAA", "Superfood & nutraceutique"],
@@ -327,6 +354,7 @@ export default function SlideOne() {
                   <p className="text-sm leading-relaxed text-zinc-700">
                     {b.scope}
                   </p>
+
                   <div>
                     <h4 className="text-xs font-semibold uppercase tracking-wide text-zinc-600">
                       Livrables
@@ -337,6 +365,7 @@ export default function SlideOne() {
                       ))}
                     </ul>
                   </div>
+
                   <div>
                     <h4 className="text-xs font-semibold uppercase tracking-wide text-zinc-600">
                       Résultat
@@ -344,6 +373,7 @@ export default function SlideOne() {
                     <p className="mt-1 text-sm text-zinc-800">{b.result}</p>
                   </div>
                 </div>
+
                 <div className="mt-4 flex flex-wrap gap-2">
                   {b.badges.map((label) => (
                     <span
@@ -355,6 +385,7 @@ export default function SlideOne() {
                     </span>
                   ))}
                 </div>
+
                 <div className="pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-gradient-to-br from-emerald-50/0 via-emerald-50/40 to-emerald-100/0 opacity-0 transition-opacity group-hover:opacity-100" />
               </article>
             ))}
@@ -362,7 +393,7 @@ export default function SlideOne() {
         </div>
       </section>
 
-      {/* Jobs étudiants / Activités professionnelles annexes */}
+      {/* Jobs étudiants / Activités pro annexes */}
       <section className="mt-12 py-10" style={{ backgroundColor: PALETTE.light }}>
         <div className="mx-auto max-w-6xl px-4">
           <h3
@@ -410,7 +441,10 @@ export default function SlideOne() {
                 style={{ borderColor: "#E5E7EB" }}
               >
                 <div className="flex items-center justify-between">
-                  <div className="font-semibold" style={{ color: PALETTE.dark }}>
+                  <div
+                    className="font-semibold"
+                    style={{ color: PALETTE.dark }}
+                  >
                     {exp.title}
                   </div>
                   <div className="text-sm" style={{ color: PALETTE.gray }}>

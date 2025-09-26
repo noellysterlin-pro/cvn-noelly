@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import Header from "./components/Header";
@@ -14,7 +15,6 @@ export default function App() {
   const [dir, setDir] = useState(1);
   const reduceMotion = useReducedMotion();
 
-  // ——— Navigation
   const clamp = (n: number) => Math.max(0, Math.min(2, n));
   const go = (to: number) => {
     const t = clamp(to);
@@ -22,7 +22,7 @@ export default function App() {
     setPage(t);
   };
 
-  // Clavier
+  // Navigation clavier
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") go(page + 1);
@@ -49,8 +49,8 @@ export default function App() {
     touchStartX.current = null;
   };
 
-  // Variants (transition 3D douce + respect reduce motion)
-  const slide3D = {
+  // Variants 3D (typing OK pour Vercel)
+  const slide3D: Variants = {
     enter: (d: number) => ({
       x: reduceMotion ? 0 : d > 0 ? "100%" : "-100%",
       rotateY: reduceMotion ? 0 : d > 0 ? -15 : 15,
@@ -60,22 +60,22 @@ export default function App() {
       x: 0,
       rotateY: 0,
       opacity: 1,
-      transition: { duration: reduceMotion ? 0 : 0.55, ease: "easeInOut" },
+      transition: { duration: reduceMotion ? 0 : 0.55, ease: [0.42, 0, 0.58, 1] }, // cubic-bezier
     },
     exit: (d: number) => ({
       x: reduceMotion ? 0 : d < 0 ? "100%" : "-100%",
       rotateY: reduceMotion ? 0 : d < 0 ? -15 : 15,
       opacity: 0,
-      transition: { duration: reduceMotion ? 0 : 0.55, ease: "easeInOut" },
+      transition: { duration: reduceMotion ? 0 : 0.55, ease: [0.42, 0, 0.58, 1] },
     }),
-  } as const;
+  };
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* HEADER (collant) */}
-      <Header page={page} go={go} portraitUrl="/portrait-noelly.jpg" />
+      {/* Header collant */}
+      <Header page={page} go={go} />
 
-      {/* CONTENU avec transitions */}
+      {/* Contenu avec transitions */}
       <main className="relative overflow-hidden" style={{ perspective: 1200 }}>
         <div
           onTouchStart={onTouchStart}
@@ -98,6 +98,7 @@ export default function App() {
                 <SlideOne />
               </motion.section>
             )}
+
             {page === 1 && (
               <motion.section
                 key="panel-1"
@@ -113,6 +114,7 @@ export default function App() {
                 <SlideTwo />
               </motion.section>
             )}
+
             {page === 2 && (
               <motion.section
                 key="panel-2"
@@ -131,7 +133,7 @@ export default function App() {
           </AnimatePresence>
         </div>
 
-        {/* Flèches latérales violettes */}
+        {/* Flèches latérales */}
         <div className="absolute inset-y-0 left-0 right-0 z-40 flex items-center justify-between px-2 md:px-4 pointer-events-none">
           <button
             onClick={() => go(page - 1)}
@@ -145,6 +147,7 @@ export default function App() {
           >
             <ChevronLeft />
           </button>
+
           <button
             onClick={() => go(page + 1)}
             disabled={page === 2}
